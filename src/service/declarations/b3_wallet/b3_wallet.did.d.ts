@@ -148,17 +148,6 @@ export interface GetUtxosResponse {
   'utxos' : Array<Utxo>,
 }
 export interface HideAccountRequest { 'account_id' : string }
-export interface HttpRequest {
-  'url' : string,
-  'method' : string,
-  'body' : Uint8Array | number[],
-  'headers' : Array<[string, string]>,
-}
-export interface HttpResponse {
-  'body' : Uint8Array | number[],
-  'headers' : Array<[string, string]>,
-  'status_code' : number,
-}
 export type IcpRequest = { 'IcpTransferRequest' : IcpTransferRequest } |
   { 'TopUpCanisterRequest' : TopUpCanisterRequest };
 export interface IcpTransferRequest {
@@ -390,7 +379,6 @@ export interface _SERVICE {
   'get_processed' : ActorMethod<[bigint], ProcessedRequest>,
   'get_processed_list' : ActorMethod<[], Array<ProcessedRequest>>,
   'get_signers' : ActorMethod<[], Array<[Principal, Signer]>>,
-  'http_request' : ActorMethod<[HttpRequest], HttpResponse>,
   'load_wasm' : ActorMethod<[Uint8Array | number[]], bigint>,
   'request_account_rename' : ActorMethod<
     [RenameAccountRequest, [] | [bigint]],

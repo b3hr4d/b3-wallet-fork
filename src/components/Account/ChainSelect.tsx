@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 import { Button, Flex, Input, Select, Stack } from "@chakra-ui/react"
-import { Chains } from "declarations/b3_wallet/b3_wallet.did"
 import { useState } from "react"
 import { B3Wallet } from "service/actor"
+import { Chains } from "service/declarations/b3_wallet/b3_wallet.did"
 
 const chains = ["BTC", "EVM", "SNS", "ICP"]
 const btcNetworks = ["Mainnet", "Testnet", "Regtest"]
@@ -16,7 +16,7 @@ interface ChainSelectProps {
 const ChainSelect: React.FC<ChainSelectProps> = ({
   account_id,
   actor,
-  refresh
+  refresh,
 }) => {
   const [chain, setChain] = useState("")
   const [network, setNetwork] = useState("")
@@ -58,13 +58,13 @@ const ChainSelect: React.FC<ChainSelectProps> = ({
 
     actor
       .account_generate_address(account_id, {
-        [chain]: networkObject
+        [chain]: networkObject,
       } as Chains)
       .then(() => {
         setLoading(false)
         refresh()
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
         setLoading(false)
       })

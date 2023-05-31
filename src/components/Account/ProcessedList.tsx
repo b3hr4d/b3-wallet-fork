@@ -1,8 +1,8 @@
 import { Accordion, Stack, Text } from "@chakra-ui/react"
-import Processed from "components/Wallet/Processed"
-import { ProcessedRequest } from "declarations/b3_wallet/b3_wallet.did"
+import Processed from "components/Account/Processed"
 import { useEffect, useState } from "react"
 import { B3Wallet } from "service/actor"
+import { ProcessedRequest } from "service/declarations/b3_wallet/b3_wallet.did"
 
 interface ProcessedProps {
   fetchAccounts: () => void
@@ -19,12 +19,12 @@ const ProcessedList: React.FC<ProcessedProps> = ({ setLoading, actor }) => {
 
     actor
       .get_processed_list()
-      .then(processed => {
+      .then((processed) => {
         console.log(processed)
         setProcessedList(processed.reverse())
         setLoading(false)
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         setLoading(false)
       })

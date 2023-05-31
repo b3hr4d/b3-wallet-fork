@@ -9,12 +9,12 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  Text
+  Text,
 } from "@chakra-ui/react"
 import { Principal } from "@dfinity/principal"
-import { Release } from "declarations/b3_system/b3_system.did"
 import { useCallback, useEffect, useState } from "react"
 import { B3System } from "service/actor"
+import { Release } from "service/declarations/b3_system/b3_system.did"
 import Disclaimer from "./Disclaimer"
 import Error from "./Error"
 import Loading from "./Loading"
@@ -26,7 +26,7 @@ interface InstallCanisterProps {
 
 const InstallCanister: React.FC<InstallCanisterProps> = ({
   systemActor,
-  fetchUserActor
+  fetchUserActor,
 }) => {
   const [error, setError] = useState<string>()
   const [loading, setLoading] = useState<boolean>()
@@ -40,12 +40,12 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
 
     systemActor
       .releases()
-      .then(releases => {
+      .then((releases) => {
         setReleases(releases)
 
         setLoading(false)
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         setLoading(false)
       })
@@ -59,7 +59,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
         fetchUserActor(walletCanisterId)
         setLoading(false)
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         setLoading(false)
       })
@@ -72,7 +72,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
 
     systemActor
       .create_wallet_canister([selectedVersion])
-      .then(async userControl => {
+      .then(async (userControl) => {
         if ("Err" in userControl) {
           setLoading(false)
           setError(userControl.Err)
@@ -83,7 +83,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
         fetchUserActor(userControl.Ok.canister_id.toString())
         setLoading(false)
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         setError(e)
         setLoading(false)
@@ -99,7 +99,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
 
       systemActor
         .install_wallet_canister([canisterPrincipal], [selectedVersion])
-        .then(async userControl => {
+        .then(async (userControl) => {
           if ("Err" in userControl) {
             setLoading(false)
 
@@ -109,7 +109,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
           fetchUserActor(userControl.Ok.canister_id.toString())
           setLoading(false)
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
           setError(e)
           setLoading(false)
@@ -131,7 +131,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
           fetchUserActor(canisterId)
           setLoading(false)
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
           setError(e)
           setLoading(false)
@@ -152,9 +152,9 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
             gridTemplateColumns="repeat(2, 1fr)"
             gap={2}
             value={selectedVersion}
-            onChange={e => setSelectedVersion(e)}
+            onChange={(e) => setSelectedVersion(e)}
           >
-            {releases.map(release => (
+            {releases.map((release) => (
               <Radio
                 flex={6}
                 key={release.version}
@@ -191,7 +191,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
             type="text"
             placeholder="Enter Canister id"
             value={canisterId}
-            onChange={e => setCanisterId(e.target.value)}
+            onChange={(e) => setCanisterId(e.target.value)}
           />
           <Button flex={4} onClick={() => installCanister(canisterId)}>
             Install Wallet
@@ -210,7 +210,7 @@ const InstallCanister: React.FC<InstallCanisterProps> = ({
             type="text"
             placeholder="Enter Canister id"
             value={canisterId}
-            onChange={e => setCanisterId(e.target.value)}
+            onChange={(e) => setCanisterId(e.target.value)}
           />
           <Button flex={4} onClick={() => addCanister(canisterId)}>
             Add Wallet

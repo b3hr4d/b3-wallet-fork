@@ -1,23 +1,22 @@
 import { Button, Container, Stack, Text } from "@chakra-ui/react"
+import Wallet from "components/Account"
 import Disclaimer from "components/Disclaimer"
 import { Footer } from "components/Footer"
 import Header from "components/Header"
 import Loading from "components/Loading"
 import SystemCanister from "components/SystemCanister"
-import Wallet from "components/Wallet"
 import useAuthClient from "hooks/useAuthClient"
-import Head from "next/head"
 import { useCallback, useState } from "react"
 import { B3Wallet, makeB3WalletActor } from "service/actor"
 
-function HomePage() {
+function App() {
   const {
     isAuthenticated,
     isAuthenticating,
     authClient,
     login,
     logout,
-    systemActor
+    systemActor,
   } = useAuthClient()
 
   const [loading, setLoading] = useState(false)
@@ -37,14 +36,14 @@ function HomePage() {
 
       userActor
         .version()
-        .then(async version => {
+        .then(async (version) => {
           console.log("user actor version", version)
           setVersion(version)
           setWalletActor(userActor)
 
           setLoading(false)
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
           setWalletCanisterId("")
           setLoading(false)
@@ -55,9 +54,6 @@ function HomePage() {
 
   return (
     <Container maxW="2xl" p={0}>
-      <Head>
-        <title>B3Wallet</title>
-      </Head>
       <Header />
       <Stack
         as="main"
@@ -117,4 +113,4 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default App

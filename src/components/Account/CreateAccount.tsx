@@ -4,12 +4,12 @@ import {
   FormControl,
   Input,
   Select,
-  Stack
+  Stack,
 } from "@chakra-ui/react"
-import { Environment } from "declarations/b3_wallet/b3_wallet.did"
 import { IS_LOCAL } from "helpers/config"
 import { useState } from "react"
 import { B3Wallet } from "service/actor"
+import { Environment } from "service/declarations/b3_wallet/b3_wallet.did"
 
 interface CreateAccountProps {
   actor: B3Wallet
@@ -18,16 +18,16 @@ interface CreateAccountProps {
 
 const CreateAccount: React.FC<CreateAccountProps> = ({
   actor,
-  fetchAccounts
+  fetchAccounts,
 }) => {
   const [name, setName] = useState<string>()
   const [environment, setEnvironment] = useState<Environment>(
     IS_LOCAL
       ? {
-          Development: null
+          Development: null,
         }
       : {
-          Production: null
+          Production: null,
         }
   )
 
@@ -42,7 +42,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
     await actor.request_create_account(
       {
         name: name ? [name] : [],
-        env: [environment]
+        env: [environment],
       },
       []
     )
@@ -66,7 +66,7 @@ const CreateAccount: React.FC<CreateAccountProps> = ({
         <FormControl isRequired flex={4}>
           <Select
             value={Object.keys(environment)[0]}
-            onChange={e => {
+            onChange={(e) => {
               const env = e.target.value
               setEnvironment({ [env]: null } as Environment)
             }}

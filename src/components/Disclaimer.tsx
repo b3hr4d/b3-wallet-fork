@@ -1,5 +1,4 @@
 import { Alert, AlertIcon, Box, Heading, Text } from "@chakra-ui/react"
-import React from "react"
 
 interface DisclaimerProps {
   noTitle?: boolean

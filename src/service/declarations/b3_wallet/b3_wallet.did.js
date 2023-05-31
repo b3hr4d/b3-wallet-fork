@@ -345,17 +345,6 @@ export const idlFactory = ({ IDL }) => {
     'role' : Roles,
     'expires_at' : IDL.Opt(IDL.Nat64),
   });
-  const HttpRequest = IDL.Record({
-    'url' : IDL.Text,
-    'method' : IDL.Text,
-    'body' : IDL.Vec(IDL.Nat8),
-    'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
-  });
-  const HttpResponse = IDL.Record({
-    'body' : IDL.Vec(IDL.Nat8),
-    'headers' : IDL.Vec(IDL.Tuple(IDL.Text, IDL.Text)),
-    'status_code' : IDL.Nat16,
-  });
   const CanisterStatusType = IDL.Variant({
     'stopped' : IDL.Null,
     'stopping' : IDL.Null,
@@ -444,7 +433,6 @@ export const idlFactory = ({ IDL }) => {
         [IDL.Vec(IDL.Tuple(IDL.Principal, Signer))],
         ['query'],
       ),
-    'http_request' : IDL.Func([HttpRequest], [HttpResponse], ['query']),
     'load_wasm' : IDL.Func([IDL.Vec(IDL.Nat8)], [IDL.Nat64], []),
     'request_account_rename' : IDL.Func(
         [RenameAccountRequest, IDL.Opt(IDL.Nat64)],

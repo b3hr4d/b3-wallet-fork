@@ -11,11 +11,11 @@ import {
   ModalHeader,
   ModalOverlay,
   useDisclosure,
-  useInterval
+  useInterval,
 } from "@chakra-ui/react"
-import { PendingRequest } from "declarations/b3_wallet/b3_wallet.did"
 import { useState } from "react"
 import { B3Wallet } from "service/actor"
+import { PendingRequest } from "service/declarations/b3_wallet/b3_wallet.did"
 import Parent from "../Parent"
 
 interface ConfirmationModalProps {
@@ -25,13 +25,13 @@ interface ConfirmationModalProps {
 
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   actor,
-  fetchAccounts
+  fetchAccounts,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const [requests, setRequests] = useState<PendingRequest[]>([])
 
   const fetchRequests = async () =>
-    actor.get_pending_list().then(newRequests => {
+    actor.get_pending_list().then((newRequests) => {
       setRequests(newRequests)
     })
 

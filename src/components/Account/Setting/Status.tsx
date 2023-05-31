@@ -10,12 +10,12 @@ import {
   Stat,
   StatHelpText,
   StatLabel,
-  Text
+  Text,
 } from "@chakra-ui/react"
 import Parent from "components/Parent"
-import { WalletCanisterStatus } from "declarations/b3_wallet/b3_wallet.did"
 import { useState } from "react"
 import { B3Wallet } from "service/actor"
+import { WalletCanisterStatus } from "service/declarations/b3_wallet/b3_wallet.did"
 
 interface ResponseProps {
   actor: B3Wallet

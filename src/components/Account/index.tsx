@@ -1,7 +1,7 @@
 import { Stack } from "@chakra-ui/react"
-import { WalletAccountView } from "declarations/b3_wallet/b3_wallet.did"
 import { useCallback, useEffect, useState } from "react"
 import { B3Wallet } from "service/actor"
+import { WalletAccountView } from "service/declarations/b3_wallet/b3_wallet.did"
 import Loading from "../Loading"
 import WalletBody from "./Body"
 import WalletHeader from "./Header"
@@ -15,13 +15,13 @@ interface WalletProps {
 export enum Mode {
   Processed,
   Settings,
-  Accounts
+  Accounts,
 }
 
 const Wallet: React.FC<WalletProps> = ({
   actor,
   version,
-  walletCanisterId
+  walletCanisterId,
 }) => {
   const [mode, setMode] = useState<Mode>(Mode.Accounts)
 
@@ -34,11 +34,11 @@ const Wallet: React.FC<WalletProps> = ({
 
     actor
       .get_account_views()
-      .then(accounts => {
+      .then((accounts) => {
         setAccounts(accounts)
         setLoading(false)
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         setLoading(false)
       })
@@ -63,7 +63,7 @@ const Wallet: React.FC<WalletProps> = ({
         actor={actor}
         walletCanisterId={walletCanisterId}
         fetchAccounts={fetchAccounts}
-        toggleMode={Mode => setMode(Mode)}
+        toggleMode={(Mode) => setMode(Mode)}
       />
       <WalletBody
         flex={11}

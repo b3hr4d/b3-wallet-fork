@@ -12,30 +12,21 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
+    "noEmit": false,
     "esModuleInterop": true,
+    "noImplicitAny": false,
     "module": "esnext",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "outDir": "./dist",
+    "baseUrl": "./src",
     "paths": {
-      "*": ["./src/*"]
+      "*": ["*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.wasm",
-    ".next/types/**/*.ts",
-    "scripts/*.ts"
-  ],
-  "exclude": ["node_modules", "out"]
+  "include": ["src", "**.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,24 +1,9 @@
-# Various IDEs and Editors
+node_modules
+dist
+target
+
 .vscode/
-.idea/
-**/*~
-
-# Mac OSX temporary files
-.DS_Store
-**/.DS_Store
-
-# dfx temporary files
-.dfx/
-canister_ids.json
-
-# frontend code
-node_modules/
-out/
-
-# Next.js
-.next/
-
-# Rust build artifacts
-target/
-
 .env
+.dfx
+
+canister_ids.json

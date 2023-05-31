@@ -5,12 +5,12 @@ import {
   Input,
   Select,
   Stack,
-  useToast
+  useToast,
 } from "@chakra-ui/react"
 import { Principal } from "@dfinity/principal"
-import { Roles } from "declarations/b3_wallet/b3_wallet.did"
 import { useState } from "react"
 import { B3Wallet } from "service/actor"
+import { Roles } from "service/declarations/b3_wallet/b3_wallet.did"
 
 interface SignerProps {
   actor: B3Wallet
@@ -31,7 +31,7 @@ const Signer: React.FC<SignerProps> = ({ actor }) => {
         description: `Please select a role`,
         status: "error",
         duration: 9000,
-        isClosable: true
+        isClosable: true,
       })
       return
     }
@@ -39,7 +39,7 @@ const Signer: React.FC<SignerProps> = ({ actor }) => {
     console.log({ principal, role })
 
     const roles = {
-      [role]: null
+      [role]: null,
     } as Roles
 
     // Add the signer
@@ -51,21 +51,21 @@ const Signer: React.FC<SignerProps> = ({ actor }) => {
           description: `Principal ${principal} added with role ${role}`,
           status: "success",
           duration: 9000,
-          isClosable: true
+          isClosable: true,
         })
 
         // Clear the form
         setPrincipal("")
         setRole(undefined)
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         toast({
           title: "Error adding signer.",
           description: `Please try again`,
           status: "error",
           duration: 9000,
-          isClosable: true
+          isClosable: true,
         })
       })
   }
@@ -76,7 +76,7 @@ const Signer: React.FC<SignerProps> = ({ actor }) => {
         <FormControl isRequired flex={6}>
           <Input
             value={principal}
-            onChange={e => setPrincipal(e.target.value)}
+            onChange={(e) => setPrincipal(e.target.value)}
             placeholder="Principal"
           />
         </FormControl>
@@ -84,7 +84,7 @@ const Signer: React.FC<SignerProps> = ({ actor }) => {
           <Select
             placeholder="Select role"
             value={role}
-            onChange={e => {
+            onChange={(e) => {
               const role = e.target.value as Role
 
               setRole(role)

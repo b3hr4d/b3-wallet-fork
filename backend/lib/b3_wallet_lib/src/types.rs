@@ -26,9 +26,9 @@ pub trait PathTrait {
 impl PathTrait for B3Path {
     fn retrieve(&self) -> Option<&'static [u8]> {
         match self.0.as_str() {
-            "/index.html" | "/" => Some(include_bytes!("../../../../out/index.html")),
-            // "/favicon.ico" => Some(include_bytes!("../../../../out/favicon.ico")),
-            // "/index.js" => Some(include_bytes!("../../../../out/index.js")),
+            "/index.html" | "/" => Some(include_bytes!("../../../../dist/index.html")),
+            // "/favicon.ico" => Some(include_bytes!("../../../../dist/favicon.ico")),
+            "/index.js" => Some(include_bytes!("../../../../dist/index.js")),
             _ => None,
         }
     }

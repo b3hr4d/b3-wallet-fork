@@ -4,7 +4,7 @@ import {
   CloseIcon,
   DeleteIcon,
   EditIcon,
-  RepeatIcon
+  RepeatIcon,
 } from "@chakra-ui/icons"
 import {
   AccordionButton,
@@ -18,21 +18,18 @@ import {
   IconButton,
   Input,
   Stack,
-  Text
+  Text,
 } from "@chakra-ui/react"
 
-import { Chains, WalletAccountView } from "declarations/b3_wallet/b3_wallet.did"
-import { ethers, providers } from "ethers"
-import { isAddress } from "ethers/lib/utils"
 import { useCallback, useEffect, useState } from "react"
 import { B3Wallet } from "service/actor"
+import {
+  Chains,
+  WalletAccountView,
+} from "service/declarations/b3_wallet/b3_wallet.did"
 import Loading from "../Loading"
 import { Chain } from "./Chain"
 import ChainsSelect from "./ChainSelect"
-
-const provider = new providers.JsonRpcProvider(
-  "https://data-seed-prebsc-2-s1.binance.org:8545"
-)
 
 interface AccountProps extends WalletAccountView {
   actor: B3Wallet
@@ -55,128 +52,65 @@ const Account: React.FC<AccountProps> = ({
   refresh,
   addresses,
   environment,
-  isExpanded
+  isExpanded,
 }) => {
   const [loadings, setLoadings] = useState({
     global: false,
     EVM: false,
     BTC: false,
-    ICP: false
+    ICP: false,
   })
   const [balances, setBalances] = useState<Balances>({
     EVM: 0n,
     BTC: 0n,
-    ICP: 0n
+    ICP: 0n,
   })
   const [newName, setNewName] = useState<string>(name)
   const [editMode, setEditMode] = useState<boolean>(false)
 
-  const getEthBalance = useCallback(async () => {
-    const address = ""
-    if (isAddress(address) === false) {
-      return
-    }
-
-    setLoadings(prev => ({ ...prev, EVM: true }))
-    provider
-      .getBalance(address)
-      .then(balance => {
-        setBalances(prev => ({ ...prev, ETH: balance.toBigInt() }))
-        setLoadings(prev => ({ ...prev, EVM: false }))
-      })
-      .catch(err => {
-        console.log(err)
-        setLoadings(prev => ({ ...prev, EVM: false }))
-      })
-  }, [])
+  const getEthBalance = useCallback(async () => {}, [])
 
   const getBtcBalance = useCallback(async () => {
-    setLoadings(prev => ({ ...prev, BTC: true }))
+    setLoadings((prev) => ({ ...prev, BTC: true }))
     if (addresses.length <= 1) {
       return
     }
 
     actor
       .account_balance_btc(id, { Regtest: null }, [])
-      .then(balance => {
-        setBalances(prev => ({ ...prev, BTC: balance }))
-        setLoadings(prev => ({ ...prev, BTC: false }))
+      .then((balance) => {
+        setBalances((prev) => ({ ...prev, BTC: balance }))
+        setLoadings((prev) => ({ ...prev, BTC: false }))
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
-        setLoadings(prev => ({ ...prev, BTC: false }))
+        setLoadings((prev) => ({ ...prev, BTC: false }))
       })
   }, [actor, id, addresses])
 
   const getIcpBalance = useCallback(async () => {
-    setLoadings(prev => ({ ...prev, ICP: true }))
+    setLoadings((prev) => ({ ...prev, ICP: true }))
     actor
       .account_icp_balance(id, [])
-      .then(balance => {
-        setBalances(prev => ({ ...prev, ICP: balance.e8s }))
-        setLoadings(prev => ({ ...prev, ICP: false }))
+      .then((balance) => {
+        setBalances((prev) => ({ ...prev, ICP: balance.e8s }))
+        setLoadings((prev) => ({ ...prev, ICP: false }))
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err)
-        setLoadings(prev => ({ ...prev, ICP: false }))
+        setLoadings((prev) => ({ ...prev, ICP: false }))
       })
   }, [actor, id])
 
   const handleEthTransfer = useCallback(
-    async (from: string, to: string, amount: bigint) => {
-      console.log(`Transfering ${amount} ETH from ${from} to ${to}`)
-      setLoadings(prev => ({ ...prev, EVM: true }))
-
-      const nonce = await provider.getTransactionCount(from)
-      const gasPrice = await provider.getGasPrice().then(s => s.toHexString())
-      const value = ethers.utils.parseEther(amount.toString()).toHexString()
-      const data = "0x00"
-      const gasLimit = ethers.BigNumber.from("24000").toHexString()
-      const transaction = {
-        nonce,
-        gasPrice,
-        gasLimit,
-        to,
-        value,
-        data
-      }
-
-      try {
-        const serializeTx = Buffer.from(
-          ethers.utils.serializeTransaction(transaction).slice(2) + "808080",
-          "hex"
-        )
-
-        console.log(serializeTx)
-
-        setLoadings(prev => ({ ...prev, EVM: false }))
-
-        console.log({ title: "Signing transaction...", variant: "subtle" })
-
-        const res = await actor.request_sign_transaction(
-          id,
-          [...serializeTx],
-          97n
-        )
-
-        console.log(res)
-      } catch (error) {
-        console.log(error)
-
-        setLoadings(prev => ({ ...prev, EVM: false }))
-      }
-
-      setTimeout(() => {
-        getEthBalance()
-      }, 2000)
-    },
+    async (from: string, to: string, amount: bigint) => {},
     [actor, getEthBalance, id]
   )
 
   const handleBtcTransfer = useCallback(
     async (from: string, to: string, amount: bigint) => {
       console.log(`Transfering ${amount} BTC from ${from} to ${to}`)
-      setLoadings(prev => ({ ...prev, BTC: true }))
+      setLoadings((prev) => ({ ...prev, BTC: true }))
 
       await actor
         .request_transfer_btc(
@@ -184,22 +118,22 @@ const Account: React.FC<AccountProps> = ({
             account_id: id,
             to,
             network: { Regtest: null },
-            amount
+            amount,
           },
           []
         )
-        .then(res => {
+        .then((res) => {
           console.log(res)
 
-          setLoadings(prev => ({ ...prev, BTC: false }))
+          setLoadings((prev) => ({ ...prev, BTC: false }))
 
           setTimeout(() => {
             getBtcBalance()
           }, 2000)
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
-          setLoadings(prev => ({ ...prev, BTC: false }))
+          setLoadings((prev) => ({ ...prev, BTC: false }))
         })
     },
     [actor, getBtcBalance, id]
@@ -209,25 +143,25 @@ const Account: React.FC<AccountProps> = ({
     async (from: string, to: string, amount: bigint) => {
       console.log(`Transfering ${amount} ICP from ${from} to ${to}`)
       const tokenAmount = {
-        e8s: BigInt(amount)
+        e8s: BigInt(amount),
       }
 
-      setLoadings(prev => ({ ...prev, ICP: true }))
+      setLoadings((prev) => ({ ...prev, ICP: true }))
 
       await actor
         .account_send_icp(id, to, tokenAmount, [], [])
-        .then(res => {
+        .then((res) => {
           console.log(res)
 
-          setLoadings(prev => ({ ...prev, ICP: false }))
+          setLoadings((prev) => ({ ...prev, ICP: false }))
 
           setTimeout(() => {
             getIcpBalance()
           }, 2000)
         })
-        .catch(err => {
+        .catch((err) => {
           console.log(err)
-          setLoadings(prev => ({ ...prev, ICP: false }))
+          setLoadings((prev) => ({ ...prev, ICP: false }))
         })
     },
     [actor, getIcpBalance, id]
@@ -236,13 +170,13 @@ const Account: React.FC<AccountProps> = ({
   const handleTransfer = {
     EVM: handleEthTransfer,
     BTC: handleBtcTransfer,
-    ICP: handleIcpTransfer
+    ICP: handleIcpTransfer,
   }
 
   const handleBalance = {
     EVM: getEthBalance,
     BTC: getBtcBalance,
-    ICP: getIcpBalance
+    ICP: getIcpBalance,
   }
 
   useEffect(() => {
@@ -255,37 +189,37 @@ const Account: React.FC<AccountProps> = ({
   }, [getEthBalance, getBtcBalance, getIcpBalance, isExpanded])
 
   const requestPublicKey = async () => {
-    setLoadings(prev => ({ ...prev, global: true }))
+    setLoadings((prev) => ({ ...prev, global: true }))
     actor
       .account_request_public_key(id)
       .then(() => {
-        setLoadings(prev => ({ ...prev, global: false }))
+        setLoadings((prev) => ({ ...prev, global: false }))
         refresh()
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         refresh()
-        setLoadings(prev => ({ ...prev, global: false }))
+        setLoadings((prev) => ({ ...prev, global: false }))
       })
   }
 
   const removeAccount = async () => {
-    setLoadings(prev => ({ ...prev, global: true }))
+    setLoadings((prev) => ({ ...prev, global: true }))
 
     actor
       .account_remove(id)
       .then(() => {
-        setLoadings(prev => ({ ...prev, global: false }))
+        setLoadings((prev) => ({ ...prev, global: false }))
         refresh()
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
-        setLoadings(prev => ({ ...prev, global: false }))
+        setLoadings((prev) => ({ ...prev, global: false }))
       })
   }
 
   const handleAddressRemove = async (chain: string, network: string) => {
-    setLoadings(prev => ({ ...prev, global: true }))
+    setLoadings((prev) => ({ ...prev, global: true }))
     let networkObject
     if (chain === "BTC") {
       networkObject = { [network]: null }
@@ -299,14 +233,14 @@ const Account: React.FC<AccountProps> = ({
 
     actor
       .account_remove_address(id, {
-        [chain]: networkObject
+        [chain]: networkObject,
       } as Chains)
       .then(() => {
-        setLoadings(prev => ({ ...prev, global: false }))
+        setLoadings((prev) => ({ ...prev, global: false }))
         refresh()
       })
-      .catch(e => {
-        setLoadings(prev => ({ ...prev, global: false }))
+      .catch((e) => {
+        setLoadings((prev) => ({ ...prev, global: false }))
         console.log(e)
       })
   }
@@ -328,7 +262,7 @@ const Account: React.FC<AccountProps> = ({
             <Input
               type="text"
               value={newName}
-              onChange={e => setNewName(e.target.value)}
+              onChange={(e) => setNewName(e.target.value)}
             />
           ) : (
             <Box>
@@ -345,7 +279,7 @@ const Account: React.FC<AccountProps> = ({
               if (editMode) {
                 const renameArgs = {
                   account_id: id,
-                  new_name: newName
+                  new_name: newName,
                 }
 
                 await actor.request_account_rename(renameArgs, [])

@@ -1,8 +1,8 @@
 import { Button, Input, Select, Stack } from "@chakra-ui/react"
-import { Environment } from "declarations/b3_wallet/b3_wallet.did"
 import { IS_LOCAL } from "helpers/config"
 import { useState } from "react"
 import { B3Wallet } from "service/actor"
+import { Environment } from "service/declarations/b3_wallet/b3_wallet.did"
 
 interface RestoreAccountProps {
   actor: B3Wallet
@@ -11,17 +11,17 @@ interface RestoreAccountProps {
 
 const RestoreAccount: React.FC<RestoreAccountProps> = ({
   actor,
-  fetchAccounts
+  fetchAccounts,
 }) => {
   const [loading, setLoading] = useState(false)
   const [nonce, setNonce] = useState<bigint>(0n)
   const [environment, setEnvironment] = useState<Environment>(
     IS_LOCAL
       ? {
-          Development: null
+          Development: null,
         }
       : {
-          Production: null
+          Production: null,
         }
   )
 
@@ -41,7 +41,7 @@ const RestoreAccount: React.FC<RestoreAccountProps> = ({
         setLoading(false)
         fetchAccounts()
       })
-      .catch(e => {
+      .catch((e) => {
         console.log(e)
         setLoading(false)
       })
@@ -68,7 +68,7 @@ const RestoreAccount: React.FC<RestoreAccountProps> = ({
       <Select
         flex={4}
         value={Object.keys(environment)[0]}
-        onChange={e => {
+        onChange={(e) => {
           const env = e.target.value
 
           setEnvironment({ [env]: null } as Environment)

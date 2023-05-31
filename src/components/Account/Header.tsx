@@ -1,6 +1,6 @@
 import { AtSignIcon, RepeatClockIcon, SettingsIcon } from "@chakra-ui/icons"
 import { Divider, IconButton, Stack, StackProps } from "@chakra-ui/react"
-import ConfirmationModal from "components/Wallet/ConfirmModal"
+import ConfirmationModal from "components/Account/ConfirmModal"
 import { B3Wallet } from "service/actor"
 import { Mode } from "."
 import Address from "./Address"

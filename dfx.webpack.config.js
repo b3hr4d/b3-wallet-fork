@@ -26,8 +26,7 @@ function initCanisterIds() {
 
   const envList = {
     DFX_NETWORK: network,
-    NEXT_PUBLIC_IC_HOST:
-      network === "ic" ? "https://ic0.app" : "http://localhost:8080"
+    IC_HOST: network === "ic" ? "https://ic0.app" : "http://localhost:8080",
   }
 
   for (const canister in canisters) {
@@ -44,11 +43,13 @@ function initCanisterIds() {
       .join("\n")
   )
 
+  console.log(envList)
+
   return envList
 }
 
 module.exports = {
-  initCanisterIds: initCanisterIds
+  initCanisterIds: initCanisterIds,
 }
 
 const callArg = process.argv[2]

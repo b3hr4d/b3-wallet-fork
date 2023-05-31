@@ -30,7 +30,7 @@ const useAuth = () => {
         onSuccess: () => {
           setIsAuthenticating(false)
           setIsAuthenticated(true)
-        }
+        },
       })
     }
   }, [authClient])
@@ -51,7 +51,7 @@ const useAuth = () => {
   useEffect(() => {
     if (authClient == null) {
       setIsAuthenticating(true)
-      AuthClient.create().then(async client => {
+      AuthClient.create().then(async (client) => {
         await client?.isAuthenticated()
         setIsAuthenticating(false)
         setAuthClient(client)
@@ -80,7 +80,7 @@ const useAuth = () => {
     isAuthenticating,
     login,
     logout,
-    systemActor
+    systemActor,
   }
 }
 

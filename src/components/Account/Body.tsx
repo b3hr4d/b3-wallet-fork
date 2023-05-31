@@ -4,11 +4,11 @@ import {
   Box,
   Stack,
   StackProps,
-  Text
+  Text,
 } from "@chakra-ui/react"
-import { WalletAccountView } from "declarations/b3_wallet/b3_wallet.did"
 import { useCallback, useState } from "react"
 import { B3Wallet } from "service/actor"
+import { WalletAccountView } from "service/declarations/b3_wallet/b3_wallet.did"
 import { Mode } from "."
 import Account from "./Account"
 import CreateAccount from "./CreateAccount"
@@ -42,12 +42,12 @@ const WalletBody: React.FC<WalletBodyProps> = ({
   const refetchAccount = useCallback(
     async (account_id: string) => {
       console.log("refreshing account " + account_id)
-      setLoading(prev => ({ ...prev, [account_id]: true }))
+      setLoading((prev) => ({ ...prev, [account_id]: true }))
       actor
         .get_account_view(account_id)
-        .then(account => {
-          setAccounts(prev => {
-            const index = prev.findIndex(a => a.id === account_id)
+        .then((account) => {
+          setAccounts((prev) => {
+            const index = prev.findIndex((a) => a.id === account_id)
 
             if (index === -1) {
               return prev
@@ -58,11 +58,11 @@ const WalletBody: React.FC<WalletBodyProps> = ({
             return [...prev]
           })
 
-          setLoading(prev => ({ ...prev, [account_id]: false }))
+          setLoading((prev) => ({ ...prev, [account_id]: false }))
         })
-        .catch(e => {
+        .catch((e) => {
           console.log(e)
-          setLoading(prev => ({ ...prev, [account_id]: false }))
+          setLoading((prev) => ({ ...prev, [account_id]: false }))
         })
     },
     [actor, setAccounts]
@@ -76,7 +76,7 @@ const WalletBody: React.FC<WalletBodyProps> = ({
           version={version}
           fetchAccounts={fetchAccounts}
           setLoading={(global: boolean) =>
-            setLoading(prev => ({ ...prev, global }))
+            setLoading((prev) => ({ ...prev, global }))
           }
         />
       ) : mode === Mode.Processed ? (
@@ -84,7 +84,7 @@ const WalletBody: React.FC<WalletBodyProps> = ({
           actor={actor}
           fetchAccounts={fetchAccounts}
           setLoading={(global: boolean) =>
-            setLoading(prev => ({ ...prev, global }))
+            setLoading((prev) => ({ ...prev, global }))
           }
         />
       ) : (

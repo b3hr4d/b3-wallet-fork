@@ -5,11 +5,11 @@ import {
   AccordionPanel,
   Box,
   Stack,
-  Text
+  Text,
 } from "@chakra-ui/react"
 import Parent from "components/Parent"
-import { ProcessedRequest } from "declarations/b3_wallet/b3_wallet.did"
 import { useMemo } from "react"
+import { ProcessedRequest } from "service/declarations/b3_wallet/b3_wallet.did"
 
 interface ProcessedRequestProps extends ProcessedRequest {}
 
@@ -17,7 +17,7 @@ const Processed: React.FC<ProcessedRequestProps> = ({
   request,
   message,
   timestamp,
-  status
+  status,
 }) => {
   const consentMessage = useMemo(() => {
     if ("Valid" in message) return message.Valid.consent_message

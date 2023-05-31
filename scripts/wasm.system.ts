@@ -1,4 +1,4 @@
-import { ReleaseArgs } from "declarations/b3_system/b3_system.did"
+import { ReleaseArgs } from "../src/declarations/b3_system/b3_system.did"
 import { B3System } from "../src/service/actor"
 import { systemLocalActor } from "./actor"
 import { chunkGenerator, loadWasm, readVersion } from "./utils"
@@ -13,7 +13,7 @@ const loadRelease = async (
   const release: ReleaseArgs = {
     version,
     features: [["", ""]],
-    size: BigInt(wasmModule.length)
+    size: BigInt(wasmModule.length),
   }
 
   for await (const chunks of chunkGenerator(wasmModule)) {
@@ -57,6 +57,6 @@ const loader = async (reload: boolean) => {
 }
 
 const reload =
-  process.argv.find(arg => arg.indexOf("--reload") > -1) !== undefined
+  process.argv.find((arg) => arg.indexOf("--reload") > -1) !== undefined
 
 loader(reload)
