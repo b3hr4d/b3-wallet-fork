@@ -13,6 +13,17 @@ type DefiniteCanisterSettings = record {
   memory_allocation : nat;
   compute_allocation : nat;
 };
+type HttpRequest = record {
+  url : text;
+  method : text;
+  body : vec nat8;
+  headers : vec record { text; text };
+};
+type HttpResponse = record {
+  body : vec nat8;
+  headers : vec record { text; text };
+  status_code : nat16;
+};
 type LoadRelease = record { total : nat64; version : text; chunks : nat64 };
 type Release = record {
   features : opt vec text;
@@ -55,6 +66,7 @@ service : () -> {
   get_user_ids : () -> (vec principal) query;
   get_wallet_canisters : () -> (vec WalletCanister) query;
   get_wallet_release : (principal) -> (Release) query;
+  http_request : (HttpRequest) -> (HttpResponse) query;
   install_wallet_canister : (opt principal, opt text) -> (Result);
   latest_release : () -> (Release) query;
   load_release : (vec nat8, ReleaseArgs) -> (LoadRelease);

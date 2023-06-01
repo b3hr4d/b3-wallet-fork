@@ -1,7 +1,8 @@
 {
   "ts-node": {
     "compilerOptions": {
-      "module": "commonjs"
+      "module": "commonjs",
+      "baseUrl": "scripts"
     },
     "files": true
   },
@@ -21,12 +22,14 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "incremental": true,
-    "outDir": "./dist",
-    "baseUrl": "./src",
+    "outDir": "./out",
+    "baseUrl": "./frontend",
     "paths": {
-      "*": ["*"]
+      "wallet": ["/wallet/*"],
+      "system": ["/system/*"],
+      "declarations": ["/declarations/*"]
     }
   },
-  "include": ["src", "**.d.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["frontend", "scripts/*.ts", "**.d.ts"],
+  "exclude": ["node_modules", "out"]
 }

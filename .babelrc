@@ -3,5 +3,11 @@
     "@babel/preset-env",
     "@babel/preset-react",
     "@babel/preset-typescript"
-  ]
+  ],
+  "plugins": ["react-refresh/babel"],
+  "env": {
+    "production": {
+      "plugins": ["transform-react-remove-prop-types"]
+    }
+  }
 }
